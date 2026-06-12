@@ -8,7 +8,7 @@ So I wrote it down. An `agent.md` at the project root. A few rules, some metadat
 
 Then I noticed something: after each task, I'd tell the agent to update the docs. And it would — accurately. It would update the relevant section after fixing a bug, register the new module after adding a feature, write a warning after hitting a sharp edge in the codebase so the next session wouldn't hit it again.
 
-The key word is *tell*. The agent doesn't update docs automatically. That's a feature, not a limitation.
+The key word is _tell_. The agent doesn't update docs automatically. That's a feature, not a limitation.
 
 If the agent updated docs silently after every code task, and that task had a bug, the docs would now describe wrong behavior as intended. The next session would read those docs and treat the mistake as a rule. It compounds. The human is the checkpoint — confirm the code is correct first, then instruct the agent to update. That sequence is what keeps the system trustworthy over time.
 
@@ -54,14 +54,14 @@ The agent treats these as hard constraints. It won't "fix" them.
 
 Because `ARCH_documentation-governance.md` contains a Task→Load Mapping, the agent knows which files to read for any given task — you don't have to tell it. Say what you want in plain language, the registry handles the routing.
 
-| What you want | What you type |
-|---------------|---------------|
-| Start a task with correct context | `I want to add X, read the relevant docs first` |
-| Audit codebase and log violations | `audit this folder, write down what needs fixing` |
-| Update docs after a task | `run a doc sweep` |
-| Bootstrap a new project | `Read LIVING_DOC_SYSTEM.md and execute the 'Bootstrapping' sequence` |
-| Flag intentional quirks | `flag any STUBBORN_FACTs you find` |
-| Split an oversized file | `refactor this file, zero-loss protocol` |
+| What you want                     | What you type                                                        |
+| --------------------------------- | -------------------------------------------------------------------- |
+| Start a task with correct context | `I want to add X, read the relevant docs first`                      |
+| Audit codebase and log violations | `audit this folder, write down what needs fixing`                    |
+| Update docs after a task          | `run a doc sweep`                                                    |
+| Bootstrap a new project           | `Read LIVING_DOC_SYSTEM.md and execute the 'Bootstrapping' sequence` |
+| Flag intentional quirks           | `flag any STUBBORN_FACTs you find`                                   |
+| Split an oversized file           | `refactor this file, zero-loss protocol`                             |
 
 No need to name specific files. The agent looks them up itself.
 
@@ -101,11 +101,12 @@ When you give an agent the master template, it is instructed to stop and ask you
 
 Give your AI agent the following prompt:
 
-> **"Read the master template at `https://github.com/Diew/living-docs/blob/main/LIVING_DOC_SYSTEM.md` and execute the 'Bootstrapping a New Project' sequence to initialize this current directory. STICK TO THE TEMPLATES VERBATIM — DO NOT SUMMARIZE."**
+> **"Read the master template at `https://github.com/zhdenny/living-docs/blob/main/LIVING_DOC_SYSTEM.md` and execute the 'Bootstrapping a New Project' sequence to initialize this current directory. STICK TO THE TEMPLATES VERBATIM — DO NOT SUMMARIZE."**
 
 The agent will generate the required structure (`agent.md`, the `docs/` folder, and the governance registry). If your agent doesn't support URL fetching, download `LIVING_DOC_SYSTEM.md` and attach it directly.
 
 Two paths are available:
+
 - **Path A** — New project with no existing code.
 - **Path B** — Existing codebase with no docs. The agent audits the code first, extracts rules from actual behavior, and flags intentional quirks as `STUBBORN_FACT` before writing anything down.
 
@@ -134,15 +135,15 @@ These behaviors are always-on. The agent applies them during any coding task wit
 **Live code warnings**
 While writing or editing code, the agent watches for threshold violations and flags them immediately:
 
-| Trigger | What the agent does |
-|---------|---------------------|
-| Logic appears 2+ times | Flags it, extracts into a named function |
-| Function body exceeds 20 lines | Warns, extracts inner logic into named helpers |
-| Expression requires a comment to understand | Extracts into a named function |
-| Function is reused across 2+ files | Moves to a shared helper file |
-| File exceeds 200 lines | Warns, reviews for split |
-| File exceeds 400 lines | Warns, split is mandatory |
-| File contains 2+ unrelated concept groups | Warns, split regardless of line count |
+| Trigger                                     | What the agent does                            |
+| ------------------------------------------- | ---------------------------------------------- |
+| Logic appears 2+ times                      | Flags it, extracts into a named function       |
+| Function body exceeds 20 lines              | Warns, extracts inner logic into named helpers |
+| Expression requires a comment to understand | Extracts into a named function                 |
+| Function is reused across 2+ files          | Moves to a shared helper file                  |
+| File exceeds 200 lines                      | Warns, reviews for split                       |
+| File exceeds 400 lines                      | Warns, split is mandatory                      |
+| File contains 2+ unrelated concept groups   | Warns, split regardless of line count          |
 
 **When the agent stops and asks**
 The agent will pause mid-task and ask one question — never more — when it hits any of these:
@@ -159,12 +160,14 @@ One question. The most blocking unknown. Then it waits for you.
 The system defines a strict communication style. Answer only what is asked. No intro, no recap, no filler. Fragments are acceptable. The pattern is: `[thing] [action] [reason]. [next step].`
 
 Good:
+
 ```
 Bug in auth middleware. Token expiry uses < not <=. Fix:
 Function extracted. Tests pass. Ready to cut old code.
 ```
 
 Bad:
+
 ```
 Sure! I'd be happy to help you with that! The issue you're experiencing is likely...
 ```
@@ -185,6 +188,7 @@ Ask the agent to audit the codebase against the rules in `docs/`. It reads the g
 
 **Zero-Loss Refactor**
 For any large refactor, file split, or move, the agent follows a strict 6-step protocol:
+
 1. **Audit** — read existing code fully before touching anything
 2. **Create targets** — new structure in place before removing old code
 3. **Bridge** — re-exports or adapters connect old to new (this step cannot be skipped)
@@ -203,7 +207,7 @@ does this match our logic?
 ```
 
 **Conflict Resolution**
-If the codebase and the docs disagree, the agent follows a clear rule: code is the source of truth for *behavior* (what the system actually does), docs are the source of truth for *intent* (what it's supposed to do). If they drift, the agent determines whether the code is buggy (fix the code) or the doc is stale (fix the doc) — and resolves it. It never leaves a conflict unresolved.
+If the codebase and the docs disagree, the agent follows a clear rule: code is the source of truth for _behavior_ (what the system actually does), docs are the source of truth for _intent_ (what it's supposed to do). If they drift, the agent determines whether the code is buggy (fix the code) or the doc is stale (fix the doc) — and resolves it. It never leaves a conflict unresolved.
 
 **Cross-Project Memory (Global LLM Wiki)**
 If you run multiple repos, Living Docs supports a shared Global LLM Wiki — a separate repo that holds institutional knowledge that applies across all projects. Each project's `agent.md` anchors to it via a relative path (`../<global-llm-wiki>/index.md`). Local docs always override global ones when there's a conflict. This gives you one place to store shared conventions without duplicating them into every repo.
@@ -218,7 +222,7 @@ Maintaining documentation fails because the bookkeeping cost compounds faster th
 
 I built this without a name for it. I thought I was just writing good documentation.
 
-After reading Karpathy's LLM Wiki gist, I asked an AI to compare his system with my existing documentation workflow. The AI's conclusion: *same architecture, different domain.*
+After reading Karpathy's LLM Wiki gist, I asked an AI to compare his system with my existing documentation workflow. The AI's conclusion: _same architecture, different domain._
 
 His pattern: raw sources stay immutable, an LLM-maintained wiki sits between you and the raw material, a schema doc tells the agent how to maintain it.  
 My pattern: the codebase stays immutable, an LLM-maintained doc layer sits between the agent and the code, a governance doc tells the agent how to maintain it.
@@ -231,4 +235,5 @@ The name I'd give it now: **Living Docs**. Not a skill file. Not a static prompt
 
 ---
 
-*This system grew out of the chaotic iteration of my main project. By having the AI itself audit the messy codebase, it successfully extracted the structural patterns into a simple web-development starter kit called [vt-template](https://github.com/Diew/vt-template). But the true breakthrough wasn't the folder structure — it was the domain-agnostic AI governance rules that the AI helped formalize along the way: Living Docs.*
+_This system grew out of the chaotic iteration of my main project. By having the AI itself audit the messy codebase, it successfully extracted the structural patterns into a simple web-development starter kit called [vt-template](https://github.com/Diew/vt-template). But the true breakthrough wasn't the folder structure — it was the domain-agnostic AI governance rules that the AI helped formalize along the way: Living Docs._
+
