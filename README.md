@@ -101,7 +101,7 @@ When you give an agent the master template, it is instructed to stop and ask you
 
 Give your AI agent the following prompt:
 
-> **"Read the master template at `https://github.com/zhdenny/living-docs/blob/main/LIVING_DOC_SYSTEM.md` and execute the 'Bootstrapping a New Project' sequence to initialize this current directory. STICK TO THE TEMPLATES VERBATIM — DO NOT SUMMARIZE."**
+> **"Read the master template at `https://github.com/zhdenny/living-docs/blob/main/LIVING_DOC_SYSTEM.md` and execute the 'Bootstrapping Guide' sequence to initialize this current directory. STICK TO THE TEMPLATES VERBATIM — DO NOT SUMMARIZE."**
 
 The agent will generate the required structure (`agent.md`, the `docs/` folder, and the governance registry). If your agent doesn't support URL fetching, download `LIVING_DOC_SYSTEM.md` and attach it directly.
 
@@ -236,4 +236,3 @@ The name I'd give it now: **Living Docs**. Not a skill file. Not a static prompt
 ---
 
 _This system grew out of the chaotic iteration of my main project. By having the AI itself audit the messy codebase, it successfully extracted the structural patterns into a simple web-development starter kit called [vt-template](https://github.com/Diew/vt-template). But the true breakthrough wasn't the folder structure — it was the domain-agnostic AI governance rules that the AI helped formalize along the way: Living Docs._
-
